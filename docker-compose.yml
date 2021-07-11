@@ -1,0 +1,24 @@
+version: "2"
+
+services:
+  nano:
+    build:
+      context: .
+    network_mode: host
+    privileged: true
+    # Might be needed for camera
+    ipc: host
+    cap_add: 
+      - SYS_PTRACE
+    # Ensure the /etc/docker/daemon.json has been updated
+    # for CUDA/CUDNN to be accessible during docker build
+    # More info here
+    # https://github.com/dusty-nv/jetson-containers
+    runtime: nvidia
+    environment:
+      - DISPLAY=${DISPLAY}
+    volumes:
+      # /tmp/argus_socket mounting for camera
+      - /tmp/argus_socket:/tmp/argus_socket
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - /root/.Xauthority:/root/.Xauthority
