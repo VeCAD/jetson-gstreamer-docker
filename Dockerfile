@@ -22,6 +22,8 @@ RUN apt-get update -qq && apt-get install -y \
     qt5-default \
     libcanberra-gtk-module \
     libcanberra-gtk3-module \
+    python-opencv \
+    python3-pip \
     && rm -rf /var/lib/apt/lists/*
 
 # Install gstreamer packages, might be too much though
@@ -38,7 +40,11 @@ RUN apt-get update -qq && apt-get install -y \
     libgstreamer-plugins-base1.0-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Build OpenCV with Gstreamer
+RUN pip3 install --upgrade setuptools pip
+COPY requirements.txt requirements.txt
+RUN pip3 install -r requirements.txt
+
+# Build OpenCV 4.5.2 with Gstreamer
 RUN cd ~/ && \
     wget -O opencv.zip https://github.com/opencv/opencv/archive/4.5.2.zip && \
     wget -O opencv_contrib.zip https://github.com/opencv/opencv_contrib/archive/4.5.2.zip && \
@@ -74,3 +80,5 @@ RUN cd ~/opencv/build/ && \
 
 RUN cd ~/opencv/build/ && \
     ldconfig
+
+WORKDIR /home/nano
