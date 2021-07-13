@@ -16,6 +16,9 @@ L4T 32.4.4 used for both host system and image.
 ```
 docker-compose build
 docker-compose run nano bash
+
+# run the capture.py
+python3 capture.py
 ```
 
 All the links/references for this fixes are in the source files. 
